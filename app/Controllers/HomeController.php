@@ -5,6 +5,7 @@ namespace Shop\Controllers;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Laminas\Diactoros\Response;
+use Shop\Views\View;
 
 /**
  * Controller to interact with the homepage
@@ -16,12 +17,15 @@ use Laminas\Diactoros\Response;
 
 class HomeController
 {
+    protected $view;
 
-    public function index(ServerRequestInterface $request) : ResponseInterface
+    public function __construct(View $view)
     {
-        $response = new Response;
-        $response->getBody()->write('<h1>Home Page</h1>');
-        return $response;
+        $this->view = $view;
+    }
+    public function index($request, $response)
+    {
+        return $this->view->render($response);
     }
 }
 
