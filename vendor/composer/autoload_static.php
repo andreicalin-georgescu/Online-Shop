@@ -351,6 +351,8 @@ class ComposerStaticInit4f2d679a0bdf741d148bd6bf99e7f2e1
         'Psr\\Http\\Message\\UriInterface' => __DIR__ . '/..' . '/psr/http-message/src/UriInterface.php',
         'Psr\\Http\\Server\\MiddlewareInterface' => __DIR__ . '/..' . '/psr/http-server-middleware/src/MiddlewareInterface.php',
         'Psr\\Http\\Server\\RequestHandlerInterface' => __DIR__ . '/..' . '/psr/http-server-handler/src/RequestHandlerInterface.php',
+        'Shop\\Config\\Loaders\\ArrayLoader' => __DIR__ . '/../..' . '/app/Config/Loaders/ArrayLoader.php',
+        'Shop\\Config\\Loaders\\LoaderInterface' => __DIR__ . '/../..' . '/app/Config/Loaders/LoaderInterface.php',
         'Shop\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Controllers/HomeController.php',
         'Shop\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'Shop\\Providers\\ViewServiceProvider' => __DIR__ . '/../..' . '/app/Providers/ViewServiceProvider.php',

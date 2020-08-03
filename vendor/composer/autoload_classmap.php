@@ -211,6 +211,8 @@ return array(
     'Psr\\Http\\Message\\UriInterface' => $vendorDir . '/psr/http-message/src/UriInterface.php',
     'Psr\\Http\\Server\\MiddlewareInterface' => $vendorDir . '/psr/http-server-middleware/src/MiddlewareInterface.php',
     'Psr\\Http\\Server\\RequestHandlerInterface' => $vendorDir . '/psr/http-server-handler/src/RequestHandlerInterface.php',
+    'Shop\\Config\\Loaders\\ArrayLoader' => $baseDir . '/app/Config/Loaders/ArrayLoader.php',
+    'Shop\\Config\\Loaders\\LoaderInterface' => $baseDir . '/app/Config/Loaders/LoaderInterface.php',
     'Shop\\Controllers\\HomeController' => $baseDir . '/app/Controllers/HomeController.php',
     'Shop\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'Shop\\Providers\\ViewServiceProvider' => $baseDir . '/app/Providers/ViewServiceProvider.php',
