@@ -21,5 +21,4 @@ $response = $router->dispatch(
     $container->get('request'), $container->get('response')
 );
 
-
  ?>

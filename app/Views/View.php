@@ -4,6 +4,7 @@ namespace Shop\Views;
 
 use Twig\Environment;
 use Laminas\Diactoros\Response;
+use Psr\Http\Message\ResponseInterface;
 
 
 /**
@@ -19,11 +20,13 @@ class View
         $this->twig = $twig;
     }
 
-    public function render($response)
+    public function render(ResponseInterface $response, $view, $data=[])
     {
-        $response = new Response;
-        $response->getBody()->write('<h1>Home Page</h1>');
+        $response->getBody()->write(
+            $this->twig->render($view, $data)
+        );
         return $response;
+
     }
 }
 

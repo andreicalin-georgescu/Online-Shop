@@ -18,8 +18,8 @@ class AppServiceProvider extends AbstractServiceProvider
 {
     protected $provides = [
         Router::class,
-        'response',
         'request',
+        'response',
         'emitter'
     ];
 
@@ -44,7 +44,9 @@ class AppServiceProvider extends AbstractServiceProvider
             );
         });
 
-        $container->share('emitter', SapiEmitter::class);
+        $container->share('emitter', function () {
+            return new SapiEmitter;
+        });
     }
 }
 

@@ -23,9 +23,10 @@ class HomeController
     {
         $this->view = $view;
     }
-    public function index($request, $response)
+    public function index(ServerRequestInterface $request) : ResponseInterface
     {
-        return $this->view->render($response);
+        $response = new Response;
+        return $this->view->render($response, 'home.twig', []);
     }
 }
 
