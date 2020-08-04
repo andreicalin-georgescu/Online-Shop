@@ -8,8 +8,10 @@ $container->delegate(
     new League\Container\ReflectionContainer
 );
 
-$container->addServiceProvider(new Shop\Providers\AppServiceProvider());
-$container->addServiceProvider(new Shop\Providers\ViewServiceProvider());
 $container->addServiceProvider(new Shop\Providers\ConfigServiceProvider());
+
+foreach ($container->get('config')->get('app.providers') as $provider) {
+    $container->addServiceProvider($provider);
+}
 
  ?>
