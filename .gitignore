@@ -1,2 +1,5 @@
 .DS_STORE
+# exclude everything in the cache folder
 cache/*
+# except the cache folder
+!cache/.gitkeep
