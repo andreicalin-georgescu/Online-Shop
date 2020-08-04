@@ -5,7 +5,8 @@
 
             'providers' => [
                 'Shop\Providers\AppServiceProvider',
-                'Shop\Providers\ViewServiceProvider'
+                'Shop\Providers\ViewServiceProvider',
+                'Shop\Providers\DatabaseServiceProvider'
             ]
     ];
  ?>
