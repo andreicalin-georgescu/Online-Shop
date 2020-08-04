@@ -13,14 +13,6 @@ try {
     //
 }
 
-$loader = new Shop\Config\Loaders\ArrayLoader([
-    'app' => base_path('config/app.php'),
-    'cache' => base_path('config/cache.php'),
-]);
-
-var_dump($loader->parse());
-die();
-
 require_once base_path('/bootstrap/container.php');
 
 $router = $container->get(League\Route\Router::class);

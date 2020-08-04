@@ -10,5 +10,6 @@ $container->delegate(
 
 $container->addServiceProvider(new Shop\Providers\AppServiceProvider());
 $container->addServiceProvider(new Shop\Providers\ViewServiceProvider());
+$container->addServiceProvider(new Shop\Providers\ConfigServiceProvider());
 
  ?>
