@@ -27,11 +27,9 @@ class HomeController
         $response = new Response;
 
         $user = $this->db->getRepository(User::class)->find(1);
-        var_dump($user);
-        die();
 
         return $this->view->render($response, 'home.twig', [
-            'user' => null
+            'user' => $user
         ]);
     }
 }
