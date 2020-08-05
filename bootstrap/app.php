@@ -24,7 +24,10 @@ try {
         $container->get('request'), $container->get('response')
     );
 } catch (Exception $e) {
-    $handler = new Shop\Exceptions\Handler($e);
+    $handler = new Shop\Exceptions\Handler(
+        $e,
+        $container->get(Shop\Session\SessionInterface::class)
+    );
 
     $response = $handler->respond();
 }
