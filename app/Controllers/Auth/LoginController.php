@@ -1,6 +1,6 @@
 <?php
 
-namespace Shop\Controllers;
+namespace Shop\Controllers\Auth;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -11,7 +11,7 @@ use Shop\Views\View;
  * Controller to interact with the homepage
  */
 
-class HomeController
+class LoginController
 {
     protected $view;
 
@@ -23,7 +23,7 @@ class HomeController
     {
         $response = new Response;
 
-        return $this->view->render($response, 'home.twig');
+        return $this->view->render($response, 'auth/login.twig');
     }
 }
 
