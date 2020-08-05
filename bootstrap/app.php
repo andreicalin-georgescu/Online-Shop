@@ -24,7 +24,9 @@ try {
         $container->get('request'), $container->get('response')
     );
 } catch (Exception $e) {
-    var_dump($e);
+    $handler = new Shop\Exceptions\Handler($e);
+
+    $response = $handler->respond();
 }
 
  ?>
