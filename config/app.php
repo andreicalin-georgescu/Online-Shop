@@ -8,6 +8,11 @@
                 'Shop\Providers\ViewServiceProvider',
                 'Shop\Providers\DatabaseServiceProvider',
                 'Shop\Providers\SessionServiceProvider'
+            ],
+
+            'middleware' => [
+                'Shop\Middleware\ShareValidationErrors',
+                'Shop\Middleware\ClearValidationErrors'
             ]
     ];
  ?>

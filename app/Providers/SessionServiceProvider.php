@@ -10,7 +10,7 @@ use Shop\Session\SessionInterface;
 
 /**
  * The service provider that handles the
- * interactions with the configuration files
+ * interactions with the seesion interface
  */
 
 class SessionServiceProvider extends AbstractServiceProvider

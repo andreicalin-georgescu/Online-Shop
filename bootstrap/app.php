@@ -17,6 +17,8 @@ require_once base_path('/bootstrap/container.php');
 
 $router = $container->get(League\Route\Router::class);
 
+require_once base_path('/bootstrap/middleware.php');
+
 require_once base_path('/routes/web.php');
 
 try {
