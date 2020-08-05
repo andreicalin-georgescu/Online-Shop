@@ -60,6 +60,7 @@ final class Versions
   'symfony/string' => 'v5.1.3@f629ba9b611c76224feb21fe2bcbf0b6f992300b',
   'twig/twig' => 'v3.0.4@582bdbdc173027ebfba3c93dc750a40b8f9ebc02',
   'vlucas/phpdotenv' => 'v5.1.0@448c76d7a9e30c341ff5bc367a923af74ae18467',
+  'vlucas/valitron' => 'v1.4.7@a03072bed1679660200766d134507a30193eaf6d',
   '__root__' => 'No version set (parsed as 1.0.0)@',
 );
 

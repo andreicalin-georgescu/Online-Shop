@@ -3,16 +3,16 @@
 {% block content %}
 <div class="row justify-content-center" style="margin-top: 100px">
     <div class="col-6">
-        <form action="" method="post">
+        <form action="/auth/signin" method="post">
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="text" name="email" id="email" class="form-control"
-                    placeholder="Enter Your Email" autocomplete="off" aria-describedby="emailHelp">
+                    placeholder="Enter Your Email" aria-describedby="emailHelp">
                 <small id="emailHelp" class="form-text text-muted"> We will never share your email with anyone else.</small>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Password">
+                <input type="password" class="form-control" name="password" id="password" placeholder="Password" autocomplete="off">
             </div>
             <div class="form-check" style=" margin-bottom: 15px">
                 <label for="remember" class="form-check-label">

@@ -6,12 +6,13 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Laminas\Diactoros\Response;
 use Shop\Views\View;
+use Shop\Controllers\Controller;
 
 /**
- * Controller to interact with the homepage
+ * Controller to interact with the Login
  */
 
-class LoginController
+class LoginController extends Controller
 {
     protected $view;
 
@@ -24,6 +25,14 @@ class LoginController
         $response = new Response;
 
         return $this->view->render($response, 'auth/login.twig');
+    }
+
+    public function signin($request)
+    {
+        $this->validate($request, [
+            'email' => ['required', 'email'],
+            'password' => ['required']
+        ]);
     }
 }
 
