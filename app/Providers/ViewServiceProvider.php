@@ -8,7 +8,7 @@ use League\Container\ServiceProvider\AbstractServiceProvider;
 
 /**
  * The service provider that handles the
- * interactions with the twig views
+ * interactions with the Twig views
  */
 
 class ViewServiceProvider extends AbstractServiceProvider

@@ -7,7 +7,8 @@
                 'Shop\Providers\AppServiceProvider',
                 'Shop\Providers\ViewServiceProvider',
                 'Shop\Providers\DatabaseServiceProvider',
-                'Shop\Providers\SessionServiceProvider'
+                'Shop\Providers\SessionServiceProvider',
+                'Shop\Providers\ViewShareServiceProvider'
             ],
 
             'middleware' => [
