@@ -7,6 +7,7 @@ use League\Container\ServiceProvider\BootableServiceProviderInterface;
 
 use Shop\Views\View;
 use Shop\Auth\Auth;
+use Shop\Session\Flash;
 
 
 /**
@@ -27,6 +28,7 @@ class ViewShareServiceProvider extends AbstractServiceProvider implements Bootab
         $container->get(View::class)->share([
             'config' => $container->get('config'),
             'auth' => $container->get(Auth::class),
+            'flash' => $container->get(Flash::class),
         ]);
     }
 }
