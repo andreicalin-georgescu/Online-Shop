@@ -9,12 +9,14 @@
                 'Shop\Providers\DatabaseServiceProvider',
                 'Shop\Providers\SessionServiceProvider',
                 'Shop\Providers\ViewShareServiceProvider',
-                'Shop\Providers\HashServiceProvider'
+                'Shop\Providers\HashServiceProvider',
+                'Shop\Providers\AuthServiceProvider'
             ],
 
             'middleware' => [
                 'Shop\Middleware\ShareValidationErrors',
-                'Shop\Middleware\ClearValidationErrors'
+                'Shop\Middleware\ClearValidationErrors',
+                'Shop\Middleware\Authenticate'
             ]
     ];
  ?>
