@@ -18,6 +18,7 @@
             'middleware' => [
                 'Shop\Middleware\ShareValidationErrors',
                 'Shop\Middleware\ClearValidationErrors',
+                'Shop\Middleware\CSRFGuard',
                 'Shop\Middleware\Authenticate'
             ]
     ];

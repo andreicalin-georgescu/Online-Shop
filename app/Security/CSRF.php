@@ -22,6 +22,11 @@ class CSRF
         return '_token';
     }
 
+    public function tokenIsValid($token)
+    {
+        return $token === $this->session->get($this->key());
+    }
+
     public function token()
     {
         if (!$this->tokenNeedsToBeGenerated()) {
@@ -55,7 +60,7 @@ class CSRF
         }
         return $this->session->exists($this->key());
     }
-    
+
     protected function shouldPersistToken()
     {
         return $this->persistToken;

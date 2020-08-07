@@ -24,6 +24,10 @@ class Auth
         $this->hash = $hash;
         $this->session = $session;
     }
+    public function logout()
+    {
+        $this->session->clear($this->key());
+    }
     public function attempt($username, $password)
     {
         $user = $this->getByUsername($username);

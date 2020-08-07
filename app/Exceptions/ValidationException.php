@@ -5,7 +5,7 @@ namespace Shop\Exceptions;
 use Exception;
 
     /**
-     * Class to handle exception thrown when form
+     * Class to define the exception thrown when form
      * verifications fail
      */
     class ValidationException extends Exception

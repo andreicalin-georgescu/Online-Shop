@@ -28,7 +28,9 @@ try {
 } catch (Exception $e) {
     $handler = new Shop\Exceptions\Handler(
         $e,
-        $container->get(Shop\Session\SessionInterface::class)
+        $container->get(Shop\Session\SessionInterface::class),
+        $container->get('response'),
+        $container->get(Shop\Views\View::class)
     );
 
     $response = $handler->respond();
