@@ -8,9 +8,9 @@
                 'Shop\Providers\ViewServiceProvider',
                 'Shop\Providers\DatabaseServiceProvider',
                 'Shop\Providers\SessionServiceProvider',
-                'Shop\Providers\ViewShareServiceProvider',
                 'Shop\Providers\HashServiceProvider',
-                'Shop\Providers\AuthServiceProvider'
+                'Shop\Providers\AuthServiceProvider',
+                'Shop\Providers\ViewShareServiceProvider'
             ],
 
             'middleware' => [
