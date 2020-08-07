@@ -11,6 +11,7 @@
                 'Shop\Providers\HashServiceProvider',
                 'Shop\Providers\AuthServiceProvider',
                 'Shop\Providers\FlashServiceProvider',
+                'Shop\Providers\CSRFServiceProvider',
                 'Shop\Providers\ViewShareServiceProvider'
             ],
 

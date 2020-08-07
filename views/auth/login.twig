@@ -32,6 +32,7 @@
                     Remember Me
                 </label>
             </div>
+            <input type="hidden" name="{{ csrf.key }}" value="{{ csrf.token }}">
             <button type="submit" class="btn btn-primary">Sign In</button>
         </form>
     </div>

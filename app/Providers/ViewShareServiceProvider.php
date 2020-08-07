@@ -9,6 +9,8 @@ use Shop\Views\View;
 use Shop\Auth\Auth;
 use Shop\Session\Flash;
 
+use Shop\Security\CSRF;
+
 
 /**
  * The service provider that handles the
@@ -29,6 +31,7 @@ class ViewShareServiceProvider extends AbstractServiceProvider implements Bootab
             'config' => $container->get('config'),
             'auth' => $container->get(Auth::class),
             'flash' => $container->get(Flash::class),
+            'csrf' => $container->get(CSRF::class),
         ]);
     }
 }
