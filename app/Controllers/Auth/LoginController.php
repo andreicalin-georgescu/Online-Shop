@@ -40,7 +40,7 @@ class LoginController extends Controller
         return $this->view->render($response, 'auth/login.twig');
     }
 
-    public function signin($request)
+    public function signin(ServerRequestInterface $request)
     {
         $userInput = $this->validate($request, [
             'email' => ['required', 'email'],
