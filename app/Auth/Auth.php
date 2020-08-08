@@ -5,21 +5,20 @@ namespace Shop\Auth;
 use Shop\Models\User;
 use Shop\Auth\Recaller;
 use Shop\Auth\Hashing\HasherInterface;
-
-use Shop\Auth\Exposers\UserExposer;
+use Shop\Auth\Exposers\DatabaseExposer;
 use Shop\Session\SessionInterface;
-use Exception;
-
 use Shop\Cookie\CookieJar;
+use Exception;
 
 /**
  * Authentication class to handle user actions
  */
 class Auth
 {
-    protected $hasher;
+    protected $hash;
     protected $session;
     protected $user;
+    protected $exposer;
     protected $recaller;
     protected $cookie;
 
@@ -28,28 +27,30 @@ class Auth
         SessionInterface $session,
         Recaller $recaller,
         CookieJar $cookie,
-        UserExposer $user
+        DatabaseExposer $exposer
     ) {
         $this->hash = $hash;
         $this->session = $session;
         $this->recaller = $recaller;
         $this->cookie = $cookie;
-        $this->user = $user;
+        $this->exposer = $exposer;
     }
     public function logout()
     {
+        $this->exposer->clearUserRememberToken($this->user->id);
+        $this->cookie->clear('remember');
         $this->session->clear($this->key());
     }
     public function attempt($username, $password, $remember = false)
     {
-        $user = $this->user->getByUsername($username);
+        $user = $this->exposer->getByUsername($username);
 
         if (!$user || !$this->hasValidCredentials($user, $password) ) {
             return false;
         }
 
         if ($this->needsRehash($user)) {
-            $this->user->updateUserPasswordHash($user->id, $this->hash->create($password));
+            $this->exposer->updateUserPasswordHash($user->id, $this->hash->create($password));
         }
 
         $this->setUserSession($user);
@@ -67,19 +68,21 @@ class Auth
             $this->cookie->get('remember')
         );
 
-        if (!$user = $this->user->getUserByRememberIdentifier($identifier)) {
+        if (!$user = $this->exposer->getUserByRememberIdentifier($identifier)) {
             $this->cookie->clear('remember');
             return;
         }
 
         if (!$this->recaller->validateToken($token, $user->remember_token)) {
-            $this->user->clearUserRememberToken($user->id);
+            $this->exposer->clearUserRememberToken($user->id);
             $this->cookie->clear('remember');
 
             throw new Exception();
         }
 
         $this->setUserSession($user);
+
+        $this->setUserFromSession();
 
     }
 
@@ -94,7 +97,7 @@ class Auth
 
         $this->cookie->set('remember', $this->recaller->generateValueForCookie($identifier, $token));
 
-        $this->user->setUserRememberToken(
+        $this->exposer->setUserRememberToken(
             $user->id, $identifier, $this->recaller->getTokenHashForDatabase($token)
         );
     }
@@ -121,7 +124,7 @@ class Auth
 
     public function setUserFromSession()
     {
-        $user = $this->user->getById($this->session->get($this->key()));
+        $user = $this->exposer->getById($this->session->get($this->key()));
 
         if (!$user) {
             throw new Exception();
@@ -133,8 +136,6 @@ class Auth
     protected function setUserSession($user)
     {
         $this->session->set($this->key(), $user->id);
-        $this->user = $user;
-
     }
 
     protected function key()
