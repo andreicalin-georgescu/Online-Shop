@@ -4,9 +4,12 @@ namespace Shop\Auth;
 
 use Doctrine\ORM\EntityManager;
 use Shop\Models\User;
+use Shop\Auth\Recaller;
 use Shop\Auth\Hashing\HasherInterface;
 use Shop\Session\SessionInterface;
 use Exception;
+
+use Shop\Cookie\CookieJar;
 
 /**
  * Authentication class to handle user actions
@@ -17,18 +20,27 @@ class Auth
     protected $hasher;
     protected $session;
     protected $user;
+    protected $recaller;
+    protected $cookie;
 
-    public function __construct(EntityManager $db, HasherInterface $hash, SessionInterface $session)
-    {
+    public function __construct(
+        EntityManager $db,
+        HasherInterface $hash,
+        SessionInterface $session,
+        Recaller $recaller,
+        CookieJar $cookie
+    ) {
         $this->db = $db;
         $this->hash = $hash;
         $this->session = $session;
+        $this->recaller = $recaller;
+        $this->cookie = $cookie;
     }
     public function logout()
     {
         $this->session->clear($this->key());
     }
-    public function attempt($username, $password)
+    public function attempt($username, $password, $remember = false)
     {
         $user = $this->getByUsername($username);
 
@@ -42,7 +54,53 @@ class Auth
 
         $this->setUserSession($user);
 
+        if ($remember) {
+            $this->setRememberToken($user);
+        }
+
         return true;
+    }
+
+    public function setUserFromCookie()
+    {
+        list($identifier, $token) = $this->recaller->splitCookieValue(
+            $this->cookie->get('remember')
+        );
+
+        // todo clear cookie if user does not exist
+
+        $user = $this->db->getRepository(User::class)->findOneBy([
+            'remember_identifier' => $identifier
+        ]);
+
+        $this->user = $user;
+        
+        if (!$this->recaller->validateToken($token, $user->remember_token)) {
+            // todo clear remember token
+            throw new Exception();
+        }
+
+        $this->setUserSession($user);
+
+    }
+
+    public function hasRecaller()
+    {
+        return $this->cookie->exists('remember');
+    }
+
+    protected function setRememberToken($user)
+    {
+        list($identifier, $token) = $this->recaller->generate();
+
+        $this->cookie->set('remember', $this->recaller->generateValueForCookie($identifier, $token));
+
+        $this->db->getRepository(User::class)->find($user->id)->update([
+            'remember_identifier' => $identifier,
+            'remember_token' => $this->recaller->getTokenHashForDatabase($token)
+        ]);
+
+        $this->db->flush();
     }
 
     protected function needsRehash($user)
@@ -76,6 +134,7 @@ class Auth
     public function setUserFromSession()
     {
         $user = $this->getById($this->session->get($this->key()));
+
         if (!$user) {
             throw new Exception();
         }

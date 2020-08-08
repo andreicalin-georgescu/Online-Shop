@@ -19,7 +19,6 @@ abstract class Controller
 
         if (!$validator->validate()) {
             throw new ValidationException($request, $validator->errors());
-
         }
 
         return $request->getParsedBody();

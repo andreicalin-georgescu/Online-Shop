@@ -11,9 +11,10 @@ use Exception;
 use Shop\Auth\Auth;
 
 /**
- * Middleware class to check if a user session is ongoing
+ * Middleware class to clear login user from stored cookie
+ * if session expires
  */
-class Authenticate implements MiddlewareInterface
+class AuthenticateFromCookie implements MiddlewareInterface
 {
     protected $auth;
 
@@ -24,14 +25,14 @@ class Authenticate implements MiddlewareInterface
 
     function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
     {
-        if ($this->auth->hasUserInSession()) {
+        if (!$this->auth->check() && $this->auth->hasRecaller()) {
             try {
-                $this->auth->setUserFromSession();
+                $this->auth->setUserFromCookie();
             } catch (Exception $e) {
                 $this->auth->logout();
             }
-
         }
+
         return $handler->handle($request);
     }
 }

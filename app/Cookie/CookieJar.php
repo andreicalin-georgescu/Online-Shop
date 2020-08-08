@@ -40,10 +40,10 @@ class CookieJar
     {
         $this->set($key, NULL, -2628000, $this->path, $this->domain);
     }
-    
+
     public function forever($key, $value)
     {
-        $this->set($key, $value, 2628000)
+        $this->set($key, $value, 2628000);
     }
 }
 

@@ -42,12 +42,12 @@ class LoginController extends Controller
 
     public function signin(ServerRequestInterface $request)
     {
-        $userInput = $this->validate($request, [
+        $data = $this->validate($request, [
             'email' => ['required', 'email'],
             'password' => ['required']
         ]);
 
-        $attempt = $this->auth->attempt($userInput['email'], $userInput['password']);
+        $attempt = $this->auth->attempt($data['email'], $data['password'], isset($data['remember']));
 
         if (!$attempt) {
             $this->flash->now('error', 'Could not sign you in with those credentials.');

@@ -27,8 +27,6 @@ class HomeController
     {
         $response = new Response;
 
-        $this->cookie->clear('abc');
-
         return $this->view->render($response, 'home.twig');
     }
 }
