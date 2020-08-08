@@ -67,16 +67,24 @@ class Auth
             $this->cookie->get('remember')
         );
 
-        // todo clear cookie if user does not exist
-
         $user = $this->db->getRepository(User::class)->findOneBy([
             'remember_identifier' => $identifier
         ]);
 
-        $this->user = $user;
-        
+        if (!$user) {
+            $this->cookie->clear('remember');
+            return;
+        }
+
         if (!$this->recaller->validateToken($token, $user->remember_token)) {
-            // todo clear remember token
+            $user = $this->db->getRepository(User::class)->find($user->id)->update([
+                'remember_identifier' => NULL,
+                'remember_token' => NULL
+            ]);
+
+            $this->db->flush();
+            $this->cookie->clear('remember');
+
             throw new Exception();
         }
 
@@ -144,6 +152,7 @@ class Auth
 
     protected function setUserSession($user)
     {
+        $this->user = $user;
         $this->session->set($this->key(), $user->id);
     }
 
