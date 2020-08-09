@@ -35,12 +35,14 @@ class Auth
         $this->cookie = $cookie;
         $this->exposer = $exposer;
     }
+
     public function logout()
     {
         $this->exposer->clearUserRememberToken($this->user->id);
         $this->cookie->clear('remember');
         $this->session->clear($this->key());
     }
+
     public function attempt($username, $password, $remember = false)
     {
         $user = $this->exposer->getByUsername($username);
@@ -73,6 +75,8 @@ class Auth
             return;
         }
 
+        $this->user = $user;
+
         if (!$this->recaller->validateToken($token, $user->remember_token)) {
             $this->exposer->clearUserRememberToken($user->id);
             $this->cookie->clear('remember');
@@ -82,8 +86,6 @@ class Auth
 
         $this->setUserSession($user);
 
-        $this->setUserFromSession();
-
     }
 
     public function hasRecaller()
@@ -91,21 +93,6 @@ class Auth
         return $this->cookie->exists('remember');
     }
 
-    protected function setRememberToken($user)
-    {
-        list($identifier, $token) = $this->recaller->generate();
-
-        $this->cookie->set('remember', $this->recaller->generateValueForCookie($identifier, $token));
-
-        $this->exposer->setUserRememberToken(
-            $user->id, $identifier, $this->recaller->getTokenHashForDatabase($token)
-        );
-    }
-
-    protected function needsRehash($user)
-    {
-        return $this->hash->needsRehash($user->password);
-    }
 
     public function user()
     {
@@ -133,9 +120,26 @@ class Auth
         $this->user = $user;
     }
 
+    protected function setRememberToken($user)
+    {
+        list($identifier, $token) = $this->recaller->generate();
+
+        $this->cookie->set('remember', $this->recaller->generateValueForCookie($identifier, $token));
+
+        $this->exposer->setUserRememberToken(
+            $user->id, $identifier, $this->recaller->getTokenHashForDatabase($token)
+        );
+    }
+
+    protected function needsRehash($user)
+    {
+        return $this->hash->needsRehash($user->password);
+    }
+
     protected function setUserSession($user)
     {
         $this->session->set($this->key(), $user->id);
+        $this->user = $user;
     }
 
     protected function key()
