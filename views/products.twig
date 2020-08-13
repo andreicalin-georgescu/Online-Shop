@@ -1,0 +1,17 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+    <h1>Our Products</h1>
+    <br>
+
+    {% for product in products %}
+    <div class="product" id="{{ product.name }}">
+        <img src="{{ product.path }}" alt="{{ product.name }}">
+        {{ product.name }}
+
+        {{ product.price }}
+    </div>
+    <br>
+    {% endfor %}
+    {% include 'templates/partials/_pagination.twig' %}
+{% endblock %}
