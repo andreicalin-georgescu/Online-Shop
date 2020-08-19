@@ -4,11 +4,11 @@ use Shop\Controllers\HomeController;
 use Shop\Controllers\Auth\LoginController;
 use Shop\Controllers\Auth\LogoutController;
 use Shop\Controllers\Auth\RegistrationController;
+use Shop\Controllers\ProductController;
 use Shop\Controllers\DashboardController;
 
 use Shop\Middleware\Authenticated;
 use Shop\Middleware\Guest;
-
 
 $router->get('/', HomeController::class . '::index')->setName('home');
 $router->group('', function ($router) {
@@ -24,4 +24,5 @@ $router->group('/auth', function ($router) {
     $router->post('/register', RegistrationController::class . '::register');
 })->middleware($container->get(Guest::class));
 
+$router->get('/products', ProductController::class . '::index')->setName('products');
  ?>

@@ -1,0 +1,25 @@
+{% if pager.totalPages > 1 %}
+    <div style="width:100%; text-align: right;">
+        <div class="ui pagination menu">
+            <a class="{% if pager.currentPage == 1 %}disabled {% endif %}item"
+                {% if pager.currentPage > 1 %}
+                    href="{{ route('products') ~ '?page=' ~ (pager.currentPage - 1)}}"
+                {% endif %}>
+                &lt;
+            </a>
+            {% for i in 1..pager.totalPages %}
+                <a class="{% if pager.currentPage == loop.index %}active {% endif %}item"
+                    href="{{ route('products') ~ '?page=' ~ loop.index}}">
+                    {{ loop.index }}
+                </a>
+            {% endfor %}
+
+            <a class="{% if pager.currentPage == pager.totalPages %}disabled {% endif %}item"
+            {% if pager.currentPage < pager.totalPages %}
+                href="{{ route('products') ~ '?page=' ~ (pager.currentPage + 1)}}"
+            {% endif %}>
+                &gt;
+            </a>
+        </div>
+    </div>
+{% endif %}

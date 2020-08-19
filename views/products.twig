@@ -1,0 +1,25 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+    <h1>Our Products</h1>
+    <hr>
+    <table class="table table-striped table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th> Product Name </th>
+                <th> Product Price </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% include 'templates/partials/_pagination.twig' %}
+
+{% endblock %}

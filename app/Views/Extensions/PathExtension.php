@@ -8,7 +8,7 @@ use Twig\TwigFunction;
 use League\Route\Router;
 
 /**
- * Custom extension to
+ * Custom extension to return a path
  */
 class PathExtension extends AbstractExtension
 {
