@@ -62,6 +62,7 @@
                     <option {% if pager.pageSize == 10 %}selected{% endif %} value="10"> 10 </option>
                     <option {% if pager.pageSize == 20 %}selected{% endif %} value="20"> 20 </option>
                 </select>
+                <input type="hidden" name="pageSize" value="{{ pager.pageSize }}">
             </div>
         </form>
     </div>

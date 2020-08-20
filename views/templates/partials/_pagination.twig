@@ -4,7 +4,7 @@
             <li class="page-item">
                 <a class="page-link {% if pager.currentPage == 1 %}disabled {% endif %}item"
                     {% if pager.currentPage > 1 %}
-                        href="{{ route('products') ~ '?page=' ~ (pager.currentPage - 1) ~ '&sort=' ~ pager.sort ~ '&fiter=' ~ pager.filter}}"
+                        href="{{ route('products') ~ '?page=' ~ (pager.currentPage - 1) ~ '&sort=' ~ pager.sort ~ '&fiter=' ~ pager.filter ~ '&pageSize=' ~ pager.pageSize}}"
                     {% endif %}>
                     &lt;
                 </a>
@@ -12,7 +12,7 @@
             {% for i in 1..pager.totalPages %}
                 <li class="page-item">
                     <a class="page-link {% if pager.currentPage == loop.index %}active {% endif %}item"
-                        href="{{ route('products') ~ '?page=' ~ loop.index ~ '&sort=' ~ pager.sort ~ '&fiter=' ~ pager.filter}}">
+                        href="{{ route('products') ~ '?page=' ~ loop.index ~ '&sort=' ~ pager.sort ~ '&fiter=' ~ pager.filter ~ '&pageSize=' ~ pager.pageSize}}">
                         {{ loop.index }}
                     </a>
                 </li>
@@ -20,7 +20,7 @@
             <li class="page-item">
                 <a class="page-link {% if pager.currentPage == pager.totalPages %}disabled {% endif %}item"
                 {% if pager.currentPage < pager.totalPages %}
-                    href="{{ route('products') ~ '?page=' ~ (pager.currentPage + 1) ~ '&sort=' ~ pager.sort ~ '&fiter=' ~ pager.filter}}"
+                    href="{{ route('products') ~ '?page=' ~ (pager.currentPage + 1) ~ '&sort=' ~ pager.sort ~ '&fiter=' ~ pager.filter ~ '&pageSize=' ~ pager.pageSize}}"
                 {% endif %}>
                     &gt;
                 </a>
