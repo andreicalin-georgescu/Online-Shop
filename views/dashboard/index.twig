@@ -1,6 +1,15 @@
 {% extends 'templates/app.twig' %}
 
 {% block content %}
-    Dashboard
-
+    <h1> Welcome to your dashboard, {{ auth.user.name }}</h1>
+    <hr>
+    {% if auth.user.is_admin %}
+    <div class="d-flex justify-content-center">
+        <ol class="list-group justify-content-center">
+            <li class="list-group-item"> <a href="#"> Add Product</a> </li>
+            <li class="list-group-item"> <a href="#"> Update Product</a> </li>
+            <li class="list-group-item"> <a href="#"> Delete Product</a> </li>
+        </ol>
+    </div>
+    {% endif %}
 {% endblock %}

@@ -45,6 +45,11 @@ class User extends Model
 
     protected $remember_identifier;
 
+    /**
+     * isAdmin @Column(type="boolean", nullable=false)
+     */
+
+    protected $is_admin;
 }
 
  ?>
