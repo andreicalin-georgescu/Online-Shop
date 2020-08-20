@@ -61,7 +61,7 @@ final class Versions
   'twig/twig' => 'v3.0.5@9b76b1535483cdf4edf01bb787b0217b62bd68a5',
   'vlucas/phpdotenv' => 'v5.1.0@448c76d7a9e30c341ff5bc367a923af74ae18467',
   'vlucas/valitron' => 'v1.4.7@a03072bed1679660200766d134507a30193eaf6d',
-  '__root__' => 'dev-master@88a532e0a7359c7c313a9e657ad14a83e05b0306',
+  '__root__' => 'No version set (parsed as 1.0.0)@',
 );
 
     private function __construct()

@@ -55,6 +55,13 @@ class PaginatorHelper
         $this->defaultSortField = $defaultSortField;
     }
 
+    public function setPageSize($request)
+    {
+        if (!empty($request->getQueryParams()['pageSize'])) {
+            $this->pageSize = $request->getQueryParams()['pageSize'];
+        }
+    }
+
     public function getPostsFromDB()
     {
         $query = $this->db->createQueryBuilder()
@@ -226,6 +233,7 @@ class PaginatorHelper
     {
         $return = [
             'currentPage' => $this->currentPage,
+            'pageSize' => $this->pageSize,
             'totalPages' => $this->totalPages,
             'sortField' => $this->sortField,
             'sortOrder' => $this->sortDirection,

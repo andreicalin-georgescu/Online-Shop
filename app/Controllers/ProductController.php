@@ -30,6 +30,7 @@ class ProductController
     {
         $response = new Response;
 
+        $this->paginator->setPageSize($request);
         $this->paginator->setFilter($request);
         $this->paginator->setCurrentPage($request);
         $this->paginator->setSorting($request);

@@ -27,7 +27,7 @@
                 {% endif %}
             </tr>
 
-            <form class="form-group" method="get">
+            <form class="form-group" id="urlForm" method="get">
                 <tr>
                     <th>
                         <input type="text" name="filter[name]"
@@ -52,7 +52,19 @@
             {% endfor %}
         </tbody>
     </table>
-
+    <div class="col-md-2">
+            <div class="form-group">
+                <label for="resultsPerPage"> Results per page</label>
+                <select name="pageSize" class="form-control" id="resultsPerPage" form="urlForm" onchange="this.form.submit()">
+                    <option {% if pager.pageSize == 1 %}selected{% endif %} value="1"> 1 </option>
+                    <option {% if pager.pageSize == 3 %}selected{% endif %} value="3"> 3 </option>
+                    <option {% if pager.pageSize == 5 %}selected{% endif %} value="5"> 5 </option>
+                    <option {% if pager.pageSize == 10 %}selected{% endif %} value="10"> 10 </option>
+                    <option {% if pager.pageSize == 20 %}selected{% endif %} value="20"> 20 </option>
+                </select>
+            </div>
+        </form>
+    </div>
     {% include 'templates/partials/_pagination.twig' %}
 
 {% endblock %}
