@@ -39,13 +39,16 @@ class PaginatorHelper
     // Sort field
 
     protected $sortField;
+    protected $defaultSortField;
+    protected $sortDirection;
+    protected $sortReverse;
 
-    public function __construct(EntityManager $db, int $pageSize = 20, string $defaultSortField = NULL)
+    public function __construct(EntityManager $db, int $pageSize = 20, string $defaultSortField = name)
     {
         $this->db = $db;
         $this->pageSize = $pageSize;
-        $this->sortField = $defaultSortField;
         $this->totalRecords = $this->getTotal();
+        $this->defaultSortField = $defaultSortField;
     }
 
     public function getPostsFromDB()
@@ -76,10 +79,15 @@ class PaginatorHelper
         return $total;
     }
 
-    public function setCurrentPage($currentURI)
+    public function setCurrentPage($request)
     {
-        $tmp = explode('=', trim($currentURI->getQuery(),'/'));
-        $currentPage = end($tmp);
+        if (empty($request->getQueryParams()['page'])) {
+            $page = 1;
+        } else {
+            $page = $request->getQueryParams()['page'];
+        }
+
+        $currentPage = $page;
 
         $this->currentPage = $currentPage;
         if (empty($this->currentPage)) {
@@ -98,26 +106,83 @@ class PaginatorHelper
         }
     }
 
+    public function setSorting($request) {
+        if (!empty($request->getQueryParams()['sort'])) {
+            $sort = $request->getQueryParams()['sort'];
+        }
+
+        if (empty($sort) && empty($this->defaultSortField)) {
+            $this->sortField = '';
+            $this->sortDirection = '';
+        } else {
+            if (empty($sort)) {
+                $arr = explode('.', $this->defaultSortField);
+            } else {
+                $arr = explode('.', $sort);
+            }
+
+            if (empty($arr[0])) {
+                $this->sortField = '';
+                $this->sortDirection = '';
+            } else if (count($arr) == 1 || empty($arr[1])) {
+                $this->sortField = $arr[0];
+                $this->sortDirection = 'ASC';
+                $this->sortReverse = $this->sortField . '.desc';
+            } else {
+                $this->sortField = $arr[0];
+                if (strtolower($arr[1] == 'desc')) {
+                    $this->sortDirection = 'DESC';
+                    $this->sortReverse = $this->sortField . '.asc';
+                } else {
+                    $this->sortDirection = 'ASC';
+                    $this->sortReverse = $this->sortField . '.desc';
+                }
+            }
+
+            // Validate sort field
+            if (!$this->db->getClassMetadata(Product::class)->hasField($this->sortField)) {
+                $this->sortField = '';
+                $this->sortDirection = '';
+            }
+        }
+    }
+
+    /**
+     * Get the records for the current page
+     */
+
     public function getRecords()
     {
         $records = $this->db->getRepository(Product::class)
-                        ->createQueryBuilder('p')
-                        ->orderBy('p.' . $this->sortField, 'DESC')
-                        ->setFirstResult($this->offset)
-                        ->setMaxResults($this->pageSize)
-                        ->getQuery()
-                        ->getResult();
+                        ->createQueryBuilder('p');
+        if (!empty($this->sortField)) {
+            $records = $records->orderBy('p.' . $this->sortField, $this->sortDirection);
+        }
+
+        $records = $records->setFirstResult($this->offset)
+                ->setMaxResults($this->pageSize)
+                ->getQuery()
+                ->getResult();
         return $records;
     }
 
     public function getDisplayParameters()
     {
-        return [
+        $return = [
             'currentPage' => $this->currentPage,
-            'totalPages' => $this->totalPages
+            'totalPages' => $this->totalPages,
+            'sortField' => $this->sortField,
+            'sortOrder' => $this->sortDirection,
+            'sortReverse' => $this->sortReverse
         ];
+
+        if (empty($this->sortField)) {
+            $return['sort'] = '';
+        } else {
+            $return ['sort'] = $this->sortField . '.' . strtolower($this->sortDirection);
+        }
+
+        return $return;
     }
-
 }
-
  ?>

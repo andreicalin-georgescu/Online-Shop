@@ -6,8 +6,25 @@
     <table class="table table-striped table-hover">
         <thead class="thead-dark">
             <tr>
-                <th> Product Name </th>
-                <th> Product Price </th>
+                {% if pager.sortField == 'name' %}
+                <th class="sorted {% if pager.sortOrder == 'ASC' %}ascending{% else %}descending{% endif %}">
+                    <a href="{{ route('products') ~ '?sort=' ~ pager.sortReverse }}">Product Name</a>
+                </th>
+                {% else %}
+                <th>
+                    <a href="{{ route('products') ~ '?sort=' ~ 'name.asc' }}"> Product Name</a>
+                </th>
+                {% endif %}
+
+                {% if pager.sortField == 'price' %}
+                <th class="sorted {% if pager.sortOrder == 'ASC' %}ascending{% else %}descending{% endif %}">
+                    <a href="{{ route('products') ~ '?sort=' ~ pager.sortReverse }}"> Product Price</a>
+                </th>
+                {% else %}
+                <th>
+                    <a href="{{ route('products') ~ '?sort=' ~ 'price.asc' }}"> Product Price</a>
+                </th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>

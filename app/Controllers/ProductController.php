@@ -30,7 +30,8 @@ class ProductController
     {
         $response = new Response;
 
-        $this->paginator->setCurrentPage($request->getUri());
+        $this->paginator->setCurrentPage($request);
+        $this->paginator->setSorting($request);
 
         return $this->view->render($response, 'products.twig', [
             'products' => $this->paginator->getRecords(),
