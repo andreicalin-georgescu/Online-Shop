@@ -26,6 +26,22 @@
                 </th>
                 {% endif %}
             </tr>
+
+            <form class="form-group" method="get">
+                <tr>
+                    <th>
+                        <input type="text" name="filter[name]"
+                        value="{% if pager.filter.name is defined %}{{ pager.filter.name }}{% endif %}"
+                        onchange="this.form.submit();" style="width:100%" placeholder="Filter product name">
+                    </th>
+                    <th>
+                        <input type="text" name="filter[price]"
+                        value="{% if pager.filter.price is defined %}{{ pager.filter.price }}{% endif %}"
+                        onchange="this.form.submit();" style="width:100%" placeholder="Filter product price">
+                    </th>
+                </tr>
+                <input type="hidden" name="sort" value="{{ pager.sort }}">
+            </form>
         </thead>
         <tbody>
             {% for product in products %}

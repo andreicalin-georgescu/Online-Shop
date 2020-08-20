@@ -43,6 +43,10 @@ class PaginatorHelper
     protected $sortDirection;
     protected $sortReverse;
 
+    // Filter array
+
+    protected $filter;
+
     public function __construct(EntityManager $db, int $pageSize = 20, string $defaultSortField = name)
     {
         $this->db = $db;
@@ -69,13 +73,49 @@ class PaginatorHelper
         }
     }
 
+    public function setFilter($request)
+    {
+        $this->filter = [];
+
+        if (empty($request->getQueryParams()['filter'])) {
+            $filters = [];
+        } else {
+            $filters = $request->getQueryParams()['filter'];
+        }
+
+        if (is_array($filters)) {
+            foreach ($filters as $key => $value) {
+                if (!empty($value) || $value == '0') {
+                    $this->filter[$key] = $value;
+                }
+            }
+        }
+    }
+
     protected function getTotal()
     {
         $total = $this->db->getRepository(Product::class)
                     ->createQueryBuilder('p')
-                    ->select('count(p.id)')
-                    ->getQuery()
-                    ->getSingleScalarResult();
+                    ->select('count(p.id)');
+
+        if (!empty($this->filter)) {
+            foreach ($this->filter as $key => $value) {
+                if ($this->db->getClassMetadata(Product::class)->hasField($key)) {
+                    $total = $total->andWhere("p.{$key} LIKE :{$key}");
+
+                    if ($this->db->getClassMetadata(Product::class)->getTypeOfField($key) === 'string' ||
+                        $this->db->getClassMetadata(Product::class)->getTypeOfField($key) === 'text') {
+
+                        $total = $total->setParameter($key, '%' . $value . '%');
+                    } else {
+                        $total = $total->setParameter($key, $value);
+                    }
+                }
+            }
+        }
+
+        $total = $total->getQuery()->getSingleScalarResult();
+
         return $total;
     }
 
@@ -106,7 +146,8 @@ class PaginatorHelper
         }
     }
 
-    public function setSorting($request) {
+    public function setSorting($request)
+    {
         if (!empty($request->getQueryParams()['sort'])) {
             $sort = $request->getQueryParams()['sort'];
         }
@@ -157,6 +198,21 @@ class PaginatorHelper
                         ->createQueryBuilder('p');
         if (!empty($this->sortField)) {
             $records = $records->orderBy('p.' . $this->sortField, $this->sortDirection);
+        }
+
+        if (!empty($this->filter)) {
+            foreach ($this->filter as $key => $value) {
+                if ($this->db->getClassMetadata(Product::class)->hasField($key)) {
+                    $records = $records->andWhere("p.{$key} LIKE :{$key}");
+                    if ($this->db->getClassMetadata(Product::class)->getTypeOfField($key) === 'string' ||
+                        $this->db->getClassMetadata(Product::class)->getTypeOfField($key) === 'text') {
+
+                        $records = $records->setParameter($key, '%' . $value . '%');
+                    } else {
+                        $records = $records->setParameter($key, $value);
+                    }
+                }
+            }
         }
 
         $records = $records->setFirstResult($this->offset)
