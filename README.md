@@ -3,7 +3,8 @@ Implements an online shop using PHP and maintaining a framework layout.
 
 In order to configure settings for the application, you must create a ".env"
 file after the sample below:
-'''
+
+```
 # Application Name
 APP_NAME="Online Shop"
 
@@ -21,6 +22,6 @@ DB_DATABASE=auth
 DB_USERNAME=user
 DB_PASSWORD=passwd
 DB_PORT=port
-'''
+```
 
-!Make sure to delete empty .gitkeep file in cache folder before using
+Make sure to delete empty .gitkeep file in cache folder before using!
