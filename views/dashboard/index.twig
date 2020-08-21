@@ -5,11 +5,7 @@
     <hr>
     {% if auth.user.is_admin %}
     <div class="d-flex justify-content-center">
-        <ol class="list-group justify-content-center">
-            <li class="list-group-item"> <a href="#"> Add Product</a> </li>
-            <li class="list-group-item"> <a href="#"> Update Product</a> </li>
-            <li class="list-group-item"> <a href="#"> Delete Product</a> </li>
-        </ol>
+        <button type="button" class="btn btn-light"><a href="{{ route('admin.manage') }}" class="btn btn-link" style="text-decoration: none">Manage Products</a></button>
     </div>
     {% endif %}
 {% endblock %}

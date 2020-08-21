@@ -34,6 +34,21 @@ class Product extends Model
      */
 
     protected $price;
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function setPrice($price)
+    {
+        $this->price = $price;
+    }
+
+    public function setPath($path)
+    {
+        $this->path = $path;
+    }
 }
 
  ?>

@@ -21,6 +21,7 @@ class Auth
     protected $exposer;
     protected $recaller;
     protected $cookie;
+    protected $isAdmin = NULL;
 
     public function __construct(
         HasherInterface $hash,
@@ -49,6 +50,10 @@ class Auth
 
         if (!$user || !$this->hasValidCredentials($user, $password) ) {
             return false;
+        }
+
+        if ($this->isAdmin === NULL) {
+            $this->isAdmin = $user->is_admin;
         }
 
         if ($this->needsRehash($user)) {
@@ -93,6 +98,10 @@ class Auth
         return $this->cookie->exists('remember');
     }
 
+    public function isAdmin()
+    {
+        return $this->exposer->isAdmin($this->user->id);
+    }
 
     public function user()
     {

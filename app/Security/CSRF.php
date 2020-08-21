@@ -5,7 +5,7 @@ namespace Shop\Security;
 use Shop\Session\SessionInterface;
 
 /**
- * Handles XSS type attacks
+ * Handles CSRF type attacks
  */
 class CSRF
 {

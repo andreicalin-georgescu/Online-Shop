@@ -6,6 +6,16 @@
     <table class="table table-striped table-hover">
         <thead class="thead-dark">
             <tr>
+                {% if pager.sortField == 'id' %}
+                <th class="sorted {% if pager.sortOrder == 'ASC' %}ascending{% else %}descending{% endif %}">
+                    <a href="{{ route('products') ~ '?sort=' ~ pager.sortReverse }}"> Product Id</a>
+                </th>
+                {% else %}
+                <th>
+                    <a href="{{ route('products') ~ '?sort=' ~ 'id.asc' }}"> Product Id</a>
+                </th>
+                {% endif %}
+
                 {% if pager.sortField == 'name' %}
                 <th class="sorted {% if pager.sortOrder == 'ASC' %}ascending{% else %}descending{% endif %}">
                     <a href="{{ route('products') ~ '?sort=' ~ pager.sortReverse }}">Product Name</a>
@@ -30,6 +40,11 @@
             <form class="form-group" id="urlForm" method="get">
                 <tr>
                     <th>
+                        <input type="text" name="filter[id]"
+                        value="{% if pager.filter.id is defined %}{{ pager.filter.id }}{% endif %}"
+                        onchange="this.form.submit();" style="width:100%" placeholder="Filter product id">
+                    </th>
+                    <th>
                         <input type="text" name="filter[name]"
                         value="{% if pager.filter.name is defined %}{{ pager.filter.name }}{% endif %}"
                         onchange="this.form.submit();" style="width:100%" placeholder="Filter product name">
@@ -46,6 +61,7 @@
         <tbody>
             {% for product in products %}
             <tr>
+                <td>{{ product.id }}</td>
                 <td>{{ product.name }}</td>
                 <td>{{ product.price }}</td>
             </tr>

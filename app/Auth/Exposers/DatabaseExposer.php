@@ -19,7 +19,11 @@ class DatabaseExposer implements UserExposer
     {
         $this->db = $db;
     }
-
+    public function isAdmin($id)
+    {
+        $user = $this->db->getRepository(User::class)->find($id);
+        return $user->is_admin;
+    }
     public function getByUsername($username){
         return $this->db->getRepository(User::class)->findOneBy([
             'email' => $username
@@ -48,7 +52,6 @@ class DatabaseExposer implements UserExposer
 
         $this->db->flush();
     }
-
     public function setUserRememberToken($id, $identifier, $hash)
     {
         $this->db->getRepository(User::class)->find($id)->update([
