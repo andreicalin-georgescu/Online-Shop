@@ -15,6 +15,7 @@
                 'Shop\Providers\ValidationServiceProvider',
                 'Shop\Providers\PaginationServiceProvider',
                 'Shop\Providers\CookieServiceProvider',
+                'Shop\Providers\CartServiceProvider',
                 'Shop\Providers\ViewShareServiceProvider'
             ],
 

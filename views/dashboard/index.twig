@@ -8,4 +8,44 @@
         <button type="button" class="btn btn-light"><a href="{{ route('admin.manage') }}" class="btn btn-link" style="text-decoration: none">Manage Products</a></button>
     </div>
     {% endif %}
+
+    <table class="table table-striped table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>Product Id</th>
+                <th>Product Name</th>
+                <th>Product Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in cart.items %}
+            <tr>
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.price }}</td>
+
+                <td>
+                    <a class="btn btn-dark" href="javascript: void(0);" onclick="event.preventDefault();
+                    postForm('{{ product.id }}');">Remove from Cart</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script type="text/javascript">
+        function postForm(id) {
+            var form = document.getElementById('removeFromCart');
+            form.setAttribute('action', '{{ route('dashboard.remove') }}');
+            document.getElementById('id').value = id;
+            form.submit();
+        }
+    </script>
+
+    <form action="{{ route('dashboard.remove') }}" method="post" style="display: none;" id="removeFromCart">
+        <input type="hidden" name="id" id="id" value="">
+        <input type="hidden" name="{{ csrf.key }}" value="{{ csrf.token }}">
+    </form>
+
+    <a href="#" class="btn btn-primary">Go to checkout</a>
 {% endblock %}
